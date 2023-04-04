@@ -25,7 +25,7 @@ public class User {
 
     private String password;
 
-    private String role;
+    private String nickname;
 
     private String authProvider;
 
@@ -34,10 +34,10 @@ public class User {
     private List<Todo> todoList = new ArrayList<>();
 
     @Builder
-    public User(String email, String password, String role, String authProvider) {
+    public User(String email, String password, String nickname, String authProvider) {
         this.email = email;
         this.password = password;
-        this.role = role;
+        this.nickname = nickname;
         this.authProvider = authProvider;
     }
 }
