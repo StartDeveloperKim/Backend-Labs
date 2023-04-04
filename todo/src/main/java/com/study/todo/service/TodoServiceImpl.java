@@ -63,7 +63,7 @@ public class TodoServiceImpl implements TodoService{
         User user = userRepository.findByEmail(userInfo.email());
         List<Todo> todoList = todoRepository.findByUserId(user.getId());
         return todoList.stream()
-                .map(todo -> new TodoResponse(todo.getTitle(), todo.isDone()))
+                .map(todo -> new TodoResponse(todo.getTitle(), todo.isDone(), todo.getCrateAt()))
                 .collect(Collectors.toList());
     }
 }

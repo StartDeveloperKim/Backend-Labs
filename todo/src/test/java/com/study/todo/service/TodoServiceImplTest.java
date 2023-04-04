@@ -11,13 +11,10 @@ import com.study.todo.dto.request.TodoRequest;
 import com.study.todo.dto.request.TodoTitleUpdateRequest;
 import com.study.todo.dto.response.TodoResponse;
 import jakarta.persistence.EntityNotFoundException;
-import org.aspectj.lang.annotation.After;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -118,9 +115,9 @@ class TodoServiceImplTest {
         List<TodoResponse> todoList = todoService.getTodoList(new UserInfo(EMAIL));
 
         //then
-        assertThat(savedTodo3.getTitle()).isEqualTo(todoList.get(2).title());
-        assertThat(savedTodo2.getTitle()).isEqualTo(todoList.get(1).title());
-        assertThat(savedTodo1.getTitle()).isEqualTo(todoList.get(0).title());
+        assertThat(savedTodo3.getTitle()).isEqualTo(todoList.get(2).getTitle());
+        assertThat(savedTodo2.getTitle()).isEqualTo(todoList.get(1).getTitle());
+        assertThat(savedTodo1.getTitle()).isEqualTo(todoList.get(0).getTitle());
     }
 
     private Todo getTodo(Long id) {
