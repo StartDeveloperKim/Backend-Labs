@@ -1,5 +1,7 @@
 package com.study.redis;
 
+import com.study.redis.person.Person;
+import com.study.redis.person.PersonRedisRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
