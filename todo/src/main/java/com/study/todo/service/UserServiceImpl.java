@@ -31,13 +31,14 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Long join(JoinRequest joinRequest) {
-        if (userRepository.existsByNickname(joinRequest.nickname()) || userRepository.existsByEmail(joinRequest.email())) {
+        if (userRepository.existsByNickname(joinRequest.getNickname()) || userRepository.existsByEmail(joinRequest.getEmail())) {
             throwIllegalArgumentException("잘못된 회원가입 요청입니다.");
         }
+
         User user = User.builder()
-                .email(joinRequest.email())
-                .password(encoder.encode(joinRequest.password()))
-                .nickname(joinRequest.nickname())
+                .email(joinRequest.getEmail())
+                .password(encoder.encode(joinRequest.getPassword()))
+                .nickname(joinRequest.getNickname())
                 .build();
 
         return userRepository.save(user).getId();

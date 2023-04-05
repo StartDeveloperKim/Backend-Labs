@@ -1,5 +1,6 @@
 package com.study.todo.controller;
 
+import com.study.todo.auth.jwt.Token;
 import com.study.todo.auth.jwt.TokenProvider;
 import com.study.todo.dto.request.JoinRequest;
 import com.study.todo.dto.request.LoginRequest;
@@ -43,10 +44,13 @@ public class UserController {
     public ResponseEntity<joinResponse> join(@RequestBody JoinRequest joinRequest) {
         try {
             Long userId = userService.join(joinRequest);
-            return ResponseEntity.ok(new joinResponse(true, "회원가입에 성공했습니다."));
+            String email = joinRequest.getEmail();
+            Token token = new Token(tokenProvider.createAccessToken(email), tokenProvider.createRefreshToken(email));
+
+            return ResponseEntity.ok(new joinResponse(true, token,"회원가입에 성공했습니다."));
         } catch (IllegalArgumentException e) {
             log.error(e.getMessage());
-            return ResponseEntity.badRequest().body(new joinResponse(false, "잘못된 회원가입 요청입니다."));
+            return ResponseEntity.badRequest().body(new joinResponse(false, null, "잘못된 회원가입 요청입니다."));
         }
 
     }
