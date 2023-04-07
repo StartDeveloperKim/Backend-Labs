@@ -1,4 +1,14 @@
 package com.study.todo.dto;
 
-public record UserInfo(String email) {
+import lombok.Getter;
+import lombok.ToString;
+
+@Getter
+@ToString
+public class UserInfo {
+    private final String email;
+
+    public UserInfo(String email) {
+        this.email = email;
+    }
 }

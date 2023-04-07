@@ -20,7 +20,7 @@ public class Todo {
     private Long id;
 
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     private String title;
@@ -35,6 +35,11 @@ public class Todo {
         this.title = title;
         this.done = done;
         this.crateAt = LocalDateTime.now();
+    }
+
+    public void update(String title, boolean done) {
+        this.title = title;
+        this.done = done;
     }
 
     public void updateTitle(String title) {

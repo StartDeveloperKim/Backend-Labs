@@ -7,10 +7,8 @@ import lombok.ToString;
 @ToString
 public class Token {
     private final String accessToken;
-    private final String refreshToken;
 
-    public Token(String accessToken, String refreshToken) {
+    public Token(String accessToken) {
         this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
     }
 }

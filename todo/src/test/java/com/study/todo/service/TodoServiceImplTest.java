@@ -8,7 +8,7 @@ import com.study.todo.dto.UserInfo;
 import com.study.todo.dto.request.TodoDoneUpdateRequest;
 import com.study.todo.dto.request.TodoRemoveRequest;
 import com.study.todo.dto.request.TodoRequest;
-import com.study.todo.dto.request.TodoTitleUpdateRequest;
+import com.study.todo.dto.request.TodoUpdateRequest;
 import com.study.todo.dto.response.TodoResponse;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.*;
@@ -60,32 +60,17 @@ class TodoServiceImplTest {
     }
 
     @Test
-    @DisplayName("제목이 수정되야한다.")
-    void updateTitle() {
+    @DisplayName("수정 요청이 들어오면 제목 및 완료여부가 수정되어야한다.")
+    void update() {
         //given
         Todo savedTodo = taskBeforeUpdateService();
-        TodoTitleUpdateRequest titleUpdateRequest = new TodoTitleUpdateRequest(savedTodo.getId(), "테스트2");
+        TodoUpdateRequest todoUpdateRequest = new TodoUpdateRequest(savedTodo.getId(), "테스트2", true);
         //when
-        todoService.updateTitle(titleUpdateRequest);
-
+        todoService.updateTodo(todoUpdateRequest);
         //then
         Todo updateTodo = getTodo(savedTodo.getId());
-        assertThat(titleUpdateRequest.title()).isEqualTo(updateTodo.getTitle());
-    }
-
-    @Test
-    @DisplayName("완료여부가 수정되야한다.")
-    void updateDone() {
-        //given
-        Todo savedTodo = taskBeforeUpdateService();
-        TodoDoneUpdateRequest doneUpdateRequest = new TodoDoneUpdateRequest(savedTodo.getId(), true);
-
-        //when
-        todoService.updateDone(doneUpdateRequest);
-
-        //then
-        Todo updateTodo = getTodo(savedTodo.getId());
-        assertThat(doneUpdateRequest.done()).isEqualTo(updateTodo.isDone());
+        assertThat(todoUpdateRequest.getTitle()).isEqualTo(updateTodo.getTitle());
+        assertThat(todoUpdateRequest.isDone()).isEqualTo(updateTodo.isDone());
     }
 
     @Test

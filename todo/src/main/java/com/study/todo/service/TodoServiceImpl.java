@@ -8,7 +8,7 @@ import com.study.todo.dto.request.TodoDoneUpdateRequest;
 import com.study.todo.dto.UserInfo;
 import com.study.todo.dto.request.TodoRemoveRequest;
 import com.study.todo.dto.request.TodoRequest;
-import com.study.todo.dto.request.TodoTitleUpdateRequest;
+import com.study.todo.dto.request.TodoUpdateRequest;
 import com.study.todo.dto.response.TodoResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class TodoServiceImpl implements TodoService{
 
     @Override
     public Long createTodo(final TodoRequest todoRequest, final UserInfo userInfo) {
-        User user = userRepository.findByEmail(userInfo.email());
+        User user = userRepository.findByEmail(userInfo.getEmail());
         Todo todo = Todo.builder()
                 .title(todoRequest.title()).user(user).done(false)
                 .build();
@@ -38,20 +38,14 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public void updateTitle(final TodoTitleUpdateRequest titleUpdateRequest) {
-        Todo todo = findTodo(titleUpdateRequest.id());
-        todo.updateTitle(titleUpdateRequest.title());
-    }
-
-    @Override
-    public void updateDone(final TodoDoneUpdateRequest doneUpdateRequest) {
-        Todo todo = findTodo(doneUpdateRequest.id());
-        todo.updateDone(doneUpdateRequest.done());
+    public void updateTodo(TodoUpdateRequest todoUpdateRequest) {
+        Todo todo = findTodo(todoUpdateRequest.getId());
+        todo.update(todoUpdateRequest.getTitle(), todoUpdateRequest.isDone());
     }
 
     @Override
     public void removeTodo(final TodoRemoveRequest todoRemoveRequest) {
-        todoRepository.delete(findTodo(todoRemoveRequest.id()));
+        todoRepository.delete(findTodo(todoRemoveRequest.getId()));
     }
 
     private Todo findTodo(Long todoId) {
@@ -60,10 +54,10 @@ public class TodoServiceImpl implements TodoService{
 
     @Override
     public List<TodoResponse> getTodoList(final UserInfo userInfo) {
-        User user = userRepository.findByEmail(userInfo.email());
+        User user = userRepository.findByEmail(userInfo.getEmail());
         List<Todo> todoList = todoRepository.findByUserId(user.getId());
         return todoList.stream()
-                .map(todo -> new TodoResponse(todo.getTitle(), todo.isDone(), todo.getCrateAt()))
+                .map(todo -> new TodoResponse(todo.getId(), todo.getTitle(), todo.isDone(), todo.getCrateAt()))
                 .collect(Collectors.toList());
     }
 }
